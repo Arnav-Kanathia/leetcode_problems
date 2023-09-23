@@ -1,0 +1,81 @@
+// Main Solution
+class Solution {
+public:
+    static bool comparator(const string &a, const string &b){
+        return a.length() < b.length();
+    }
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(), words.end(), comparator);
+        unordered_map<string, int> umap;
+        int ans = 0;
+
+        for(auto it:words){
+            int longest = 0;
+            for(int i = 0; i<it.length(); i++){
+                string temp = it;
+                temp.erase(i, 1);
+                longest = max(longest, umap[temp]+1);
+            }
+            umap[it] = longest;
+            ans = max(ans, longest);
+        }
+
+        return ans;
+    }
+};
+
+// TLE Solution (Brute force)
+/*
+class Solution {
+public:
+    int lcs(string a, string b){
+        int n = a.length();
+        int m = b.length();
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=m; j++){
+                if(a[i-1] == b[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
+                else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+
+        return dp[n][m];
+    }
+
+    int answer(int index, unordered_map<int, vector<string>> umap, vector<int>& dp, vector<string>& words){
+        if(dp[index] != -1) return dp[index];
+
+        int len = words[index].length();
+        for(auto it:umap[len+1]){
+            if(lcs(words[index], it) == len){
+                int ind = 0;
+                for(ind; ind<words.size(); ind++){
+                    if(words[ind] == it) break;
+                }
+
+                dp[index] = max(dp[index], 1 + answer(ind, umap, dp, words));
+            }
+        }
+
+        if(dp[index] == -1) dp[index] = 1;
+        return dp[index];
+    }
+    int longestStrChain(vector<string>& words) {
+        int n = words.size();
+        int max_len = 1;
+        vector<int> dp(n, -1);
+        unordered_map<int, vector<string>> umap;
+
+        for(auto it:words){
+            umap[it.length()].push_back(it);
+        }
+
+        for(int i = 0; i<n; i++){
+            max_len = max(max_len, answer(i, umap, dp, words));
+        }
+
+        return max_len;
+    }
+};
+*/
