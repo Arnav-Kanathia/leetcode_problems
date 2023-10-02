@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool winnerOfGame(string colors) {
+        int n = colors.length();
+        priority_queue<int> a;
+        priority_queue<int> b;
+
+        int temp1 = 0, temp2 = 0;
+        for(int i = 0; i<n; i++){
+            if(colors[i] == 'A'){
+                if(temp2>2) b.push(temp2);
+                temp2 = 0;
+                temp1++;
+            }
+            else{
+                if(temp1>2) a.push(temp1);
+                temp1 = 0;
+                temp2++;
+            }
+        }
+        if(temp2>2) b.push(temp2);
+        if(temp1>2) a.push(temp1);
+
+        int flag = 1;
+        while(true){
+            if(flag){
+                if(a.empty()) return false;
+                int temp = a.top();
+                a.pop();
+                temp--;
+                if(temp>2) a.push(temp);
+                flag = 0;
+            }
+            else{
+                if(b.empty()) return true;
+                int temp = b.top();
+                b.pop();
+                temp--;
+                if(temp>2) b.push(temp);
+                flag = 1;
+            }
+        }
+
+        return false;
+    }
+};
