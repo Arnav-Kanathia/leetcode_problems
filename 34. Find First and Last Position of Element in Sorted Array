@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int first_occurence(int target, vector<int>& nums){
+        int left = 0;
+        int right = nums.size()-1;
+
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            if(nums[mid] >= target) right = mid-1;
+            else left = mid+1;
+        }
+        return left;
+    }
+
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+
+        int idx1 = first_occurence(target, nums);
+        int idx2 = first_occurence(target+1, nums) - 1;
+
+        if(idx1>=0 && idx1<n && nums[idx1] == target) return {idx1, idx2};
+        return {-1,-1};
+    }
+};
