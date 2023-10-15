@@ -1,0 +1,21 @@
+class Solution {
+public:
+
+    int numWays(int steps, int arrLen) {
+        const int MOD = 1e9 + 7;
+        int maxPos = min(steps, arrLen); 
+        vector<int> dp(maxPos + 2, 0);
+        dp[1] = 1;
+
+        for (int i = 1; i <= steps; ++i) {
+            vector<int> next(maxPos + 2, 0);
+            for (int j = 1; j <= maxPos; ++j) {
+                next[j] = ((dp[j - 1] + dp[j]) % MOD + dp[j + 1]) % MOD;
+            }
+            dp = next;
+        }
+
+        return dp[1];
+    }
+
+};
