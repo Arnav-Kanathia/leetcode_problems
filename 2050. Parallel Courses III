@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
+        vector<vector<int>> graph(n + 1);
+        vector<int> inDegree(n + 1, 0);
+        vector<int> maxTime(n + 1, 0);
+
+        for (auto relation : relations) {
+            int prevCourse = relation[0];
+            int nextCourse = relation[1];
+            graph[prevCourse].push_back(nextCourse);
+            inDegree[nextCourse]++;
+        }
+
+        queue<int> q;
+
+        for (int course = 1; course <= n; course++) {
+            if (inDegree[course] == 0) {
+                q.push(course);
+                maxTime[course] = time[course - 1];
+            }
+        }
+
+        int minTotalTime = 0;
+
+        while (!q.empty()) {
+            int currentCourse = q.front();
+            q.pop();
+
+            for (int nextCourse : graph[currentCourse]) {
+                inDegree[nextCourse]--;
+                maxTime[nextCourse] = max(maxTime[nextCourse], maxTime[currentCourse] + time[nextCourse - 1]);
+
+                if (inDegree[nextCourse] == 0) {
+                    q.push(nextCourse);
+                }
+            }
+        }
+
+        for (int course = 1; course <= n; course++) {
+            minTotalTime = max(minTotalTime, maxTime[course]);
+        }
+
+        return minTotalTime;
+    }
+};
