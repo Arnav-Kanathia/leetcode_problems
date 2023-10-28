@@ -1,0 +1,46 @@
+class Solution {
+public:
+    const int MOD = 1000000007;
+    unordered_map<char, int> umap;
+
+    Solution(){
+        umap['a'] = 1; umap['e'] = 2; umap['i'] = 3; umap['o'] = 4; umap['u'] = 5;
+    }
+
+    int solve(int n, char prev, vector<vector<int>>& dp) {
+        if (n == 0) return 1;
+        if (dp[n][umap[prev]-1] != -1) return dp[n][umap[prev]-1];
+
+        int ans = 0;
+        if (prev == 'a') {
+            ans = (ans + solve(n - 1, 'e', dp)) % MOD;
+        } else if (prev == 'e') {
+            ans = (ans + solve(n - 1, 'a', dp)) % MOD;
+            ans = (ans + solve(n - 1, 'i', dp)) % MOD;
+        } else if (prev == 'i') {
+            ans = (ans + solve(n - 1, 'a', dp)) % MOD;
+            ans = (ans + solve(n - 1, 'e', dp)) % MOD;
+            ans = (ans + solve(n - 1, 'o', dp)) % MOD;
+            ans = (ans + solve(n - 1, 'u', dp)) % MOD;
+        } else if (prev == 'o') {
+            ans = (ans + solve(n - 1, 'i', dp)) % MOD;
+            ans = (ans + solve(n - 1, 'u', dp)) % MOD;
+        } else {
+            ans = (ans + solve(n - 1, 'a', dp)) % MOD;
+        }
+
+        dp[n][umap[prev]-1] = ans;
+        return ans;
+    }
+
+    int countVowelPermutation(int n) {
+        vector<vector<int>> dp(n+1, vector<int>(5, -1));
+        int ans = 0;
+        ans = (ans + solve(n-1, 'a', dp)) % MOD;
+        ans = (ans + solve(n-1, 'e', dp)) % MOD;
+        ans = (ans + solve(n-1, 'i', dp)) % MOD;
+        ans = (ans + solve(n-1, 'o', dp)) % MOD;
+        ans = (ans + solve(n-1, 'u', dp)) % MOD;
+        return ans;
+    }
+};
