@@ -1,0 +1,22 @@
+class Solution {
+public:
+    pair<int, int> answer(TreeNode* root, int& ans){
+        if(root == NULL) return {0,0};
+
+        auto leftSubtree = answer(root->left, ans);
+        auto rightSubtree = answer(root->right, ans);
+
+        int sum = leftSubtree.first + rightSubtree.first + root->val;
+        int nodes = leftSubtree.second + rightSubtree.second + 1;
+
+        if(sum/nodes == root->val) ans++;
+
+        return {sum, nodes};
+    }
+
+    int averageOfSubtree(TreeNode* root) {
+        int ans = 0;
+        answer(root, ans);
+        return ans;
+    }
+};
