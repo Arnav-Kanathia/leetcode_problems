@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<string> buildArray(vector<int>& target, int n) {
+        int siz = target.size();
+        int last = target[siz-1];
+        vector<string> ans;
+
+        unordered_map<int, int> umap;
+        for(auto it:target){
+            umap[it]++;
+        }
+        
+        for(int i = 1; i<=last; i++){
+            ans.push_back("Push");
+            if(!umap[i]) ans.push_back("Pop");
+        }
+
+        return ans;
+    }
+};
