@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        int ans = 0, n = garbage.size();
+        int lm = 0, lp = 0, lg = 0;
+
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<garbage[i].size(); j++){
+                ans++;
+                if(garbage[i][j] == 'M') lm = i;
+                else if(garbage[i][j] == 'P') lp = i;
+                else lg = i;
+            }
+        }
+
+        for(int i = 1; i<n-1; i++){
+            travel[i] = travel[i] + travel[i-1];
+        }
+
+        if(lm > 0) ans += travel[lm-1];
+        if(lp > 0) ans += travel[lp-1];
+        if(lg > 0) ans += travel[lg-1];
+
+        return ans;
+    }
+};
