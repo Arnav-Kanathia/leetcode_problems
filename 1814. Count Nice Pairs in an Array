@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int countNicePairs(vector<int>& nums) {
+        int pairCnt = 0, mod = 1e9 + 7;
+        unordered_map<int, long long> diffFreq;
+        for(int indx = 0; indx < nums.size(); indx++){
+           long long diff = nums[indx] - findRev(nums[indx]);
+           pairCnt = (pairCnt % mod + diffFreq[diff] % mod)%mod;
+           diffFreq[diff] = (diffFreq[diff] % mod + 1 % mod)%mod;
+        }
+        return pairCnt;
+    }
+private:
+    int findRev(int num){
+       int revNum = 0;
+       while(num > 0){
+           int digit = num % 10;
+           revNum = revNum * 10 + digit;
+           num /= 10;
+       }
+       return revNum;
+    }    
+};
