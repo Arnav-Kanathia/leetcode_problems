@@ -1,0 +1,22 @@
+
+class Solution {
+public:
+    string largestGoodInteger(string num) {
+        int maxi = INT_MIN;
+        int n = num.length();
+
+        for (int i = 2; i < n; i++) {
+            if (num[i] == num[i - 1] && num[i] == num[i - 2]) {
+                int current = num[i] - '0'; // Convert char to integer value
+                maxi = max(maxi, current);
+            }
+        }
+
+        if (maxi == INT_MIN) return "";
+
+        string ans = to_string(maxi);
+        ans += ans+ans; // Convert integer back to char
+        return ans;
+    }
+};
+
