@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int totalMoney(int n) {
+        int ans = 0, og = 1;
+        int temp = 1, count = 7;
+
+        while(n--){
+            ans += temp;
+            temp++;
+            count--;
+            if(count == 0){
+                count = 7;
+                og++;
+                temp = og;
+            }
+        }
+
+        return ans;
+    }
+};
