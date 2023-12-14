@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> onesMinusZeros(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+
+        vector<int> row_ones(n), row_zeros(n), col_zeros(m), col_ones(m);
+
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                if(grid[i][j] == 1){
+                    col_ones[j]++;
+                    row_ones[i]++;
+                }
+                else{
+                    col_zeros[j]++;
+                    row_zeros[i]++;
+                }
+            }
+        }
+
+        vector<vector<int>> diff(n, vector<int>(m, 0));
+
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                diff[i][j] = row_ones[i] + col_ones[j] - row_zeros[i] - col_zeros[j];
+            }
+        }
+
+        return diff;
+    }
+};
