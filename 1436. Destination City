@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string destCity(vector<vector<string>>& paths) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(0);
+        cout.tie(0);
+        
+        // Step 1: Create an unordered map to store the paths, and a set to store all cities
+        unordered_map<string, string> m;
+        unordered_set<string> s;
+        
+        // Step 2: Iterate through the paths to populate the map and set
+        for(auto x : paths)
+        {
+            string s1 = x[0];
+            string s2 = x[1];
+            s.insert(s1);
+            s.insert(s2);
+            m[s1] = s2;
+        }
+        
+        // Step 3: Iterate through the set to find the destination city
+        for(auto x : s)
+        {
+            if(m.find(x) == m.end()) return x;
+        }
+        
+        // Step 4: Return an empty string if no destination city is found (this should not happen)
+        return "";
+}
+
+};
