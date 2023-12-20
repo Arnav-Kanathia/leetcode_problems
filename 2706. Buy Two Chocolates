@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int buyChoco(vector<int>& prices, int money) {
+        int n = prices.size();
+        int min1 = INT_MAX, min2 = INT_MAX;
+
+        for(auto x:prices){
+            if(x < min1){
+                min2 = min1;
+                min1 = x;
+            }
+            else if(x < min2) min2 = x;
+        }
+
+        if(min1+min2 > money) return money;
+        return money-(min1+min2);
+    }
+};
