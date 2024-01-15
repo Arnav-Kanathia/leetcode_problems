@@ -1,0 +1,28 @@
+
+#define eb emplace_back 
+#define pb push_back
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        unordered_map<int,int>win,los;
+        vector<int>winner,losser;
+        vector<vector<int>>ans;
+        int n=matches.size();
+        for(int i=0;i<n;i++)win[matches[i][0]]++;
+        for(int i=0;i<n;i++)los[matches[i][1]]++;
+        for(int i=0;i<n;i++)
+        {
+            int f1=matches[i][0],s1=matches[i][1];
+            if(los[f1]==0 && win[f1]>0)winner.eb(f1);
+            else if(los[f1]==1)losser.eb(f1);
+            if(win[s1]==0 && los[s1]==1)losser.eb(s1);
+        }
+        sort(winner.begin(),winner.end());
+        sort(losser.begin(),losser.end());
+        winner.erase(unique(winner.begin(),winner.end()),winner.end());
+        losser.erase(unique(losser.begin(),losser.end()),losser.end());
+        ans.pb(winner);
+        ans.pb(losser);
+        return ans;
+    }
+};
