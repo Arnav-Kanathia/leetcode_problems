@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int answer(int m, int n, int maxMove, int startRow, int startColumn, vector<vector<vector<int>>>& dp){
+        if(startRow < 0 || startRow >= m || startColumn < 0 || startColumn >= n) return 1;
+        if(maxMove == 0) return 0;
+        if(dp[maxMove][startRow][startColumn] != -1) return dp[maxMove][startRow][startColumn];
+
+        int count = 0;
+        vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        for(auto dir:directions){
+            int newRow = startRow + dir.first;
+            int newCol = startColumn + dir.second;
+
+            count = (count + answer(m, n, maxMove - 1, newRow, newCol, dp)) % MOD;
+        }
+
+        return dp[maxMove][startRow][startColumn] = count;
+    }
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        vector<vector<vector<int>>> dp(maxMove+1, vector<vector<int>>(m+1, vector<int>(n+1, -1)));
+        return answer(m, n, maxMove, startRow, startColumn, dp);
+    }
+private:
+    const int MOD = 1000000007;
+};
