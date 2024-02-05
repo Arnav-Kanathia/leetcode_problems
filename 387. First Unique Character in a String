@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        int n = s.length();
+        if (n == 0) {
+            return -1;
+        }
+
+        unordered_map<char, int> map;
+        for (char ch : s) {
+            map[ch]++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            char ch = s[i];
+            if (map[ch] == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
