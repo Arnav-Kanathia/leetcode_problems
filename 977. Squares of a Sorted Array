@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> temp;
+        int n = nums.size(), i = 0;
+
+        for(i = 0; i<n; i++){
+            if(nums[i] >= 0) break;
+        }
+
+        for(int s = i-1; s>=0; s--){
+            temp.push_back(abs(nums[s]));
+        }
+        
+        int j = 0, m = temp.size();
+        for(int k = 0; k<n; k++){
+            if(j<m && i<n){
+                if(temp[j]>nums[i]){
+                    nums[k] = nums[i];
+                    i++;
+                }
+                else{
+                    nums[k] = temp[j];
+                    j++;
+                }
+            }
+            else if(j<m){
+                nums[k] = temp[j];
+                j++;
+            }
+            else{
+                nums[k] = nums[i];
+                i++; 
+            }
+        }
+
+        for(int i = 0; i<n; i++) nums[i] = nums[i]*nums[i];
+
+        return nums;
+    }
+};
